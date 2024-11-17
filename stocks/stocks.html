@@ -1,0 +1,59 @@
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="staticBackdropstock"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+  data-id=""
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Stock In/Out for Product <h5 class="modal-title" id="name"></h5></h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <form action="" method="post" id="form-stock-product">
+        <div class="modal-body">
+          <div class="mb-2">
+            <label for="quantity" class="form-label">Quantity</label>
+            <input type="text" class="form-control" id="quantity" name="quantity" />
+            <div class="invalid-feedback"></div>
+          </div>
+
+          <div class="mb-2">
+            <label for="status" class="form-label">Status</label><br>
+              <input type="radio" class="stocks" value="in" name="status" id="stockin"><label for="stockin">Stock In</label>
+              <input type="radio" class="stocks" value="out" name="status" id="stockout"><label for="stockout">Stock Out</label>
+              <div class="invalid-feedback"></div>
+          </div>
+
+          <div class="mb-2">
+            <label for="reason" class="form-label">Reason</label><br>
+            <textarea name="reason" class="form-control" id="reason" cols="30"></textarea>
+            <div class="invalid-feedback"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button type="submit" class="btn btn-primary brand-bg-color">
+            update Product
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
