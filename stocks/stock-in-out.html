@@ -1,0 +1,43 @@
+<!-- Modal for Stock In/Out -->
+<div class="modal fade" id="stockModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="stockModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="stockModalLabel">Stock In/Out</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="" method="post" id="form-stock">
+                <div class="modal-body">
+                    <div class="mb-2">
+                        <label for="quantity" class="form-label">Quantity</label>
+                        <input type="number" class="form-control" id="quantity" name="quantity">
+                        <div class="invalid-feedback"></div>
+                    </div>
+                    
+                    <div class="mb-2">
+                        <label for="status" class="form-label">Status</label>
+                        <div>
+                            <input type="radio" class="form-check-input" id="stockIn" name="status" value="in">
+                            <label class="form-check-label" for="stockIn">Stock In</label>
+                        </div>
+                        <div>
+                            <input type="radio" class="form-check-input" id="stockOut" name="status" value="out">
+                            <label class="form-check-label" for="stockOut">Stock Out</label>
+                        </div>
+                        <div class="invalid-feedback"></div>
+                    </div>
+
+                    <div class="mb-2 d-none" id="reasonField">
+                        <label for="reason" class="form-label">Reason</label>
+                        <textarea class="form-control" id="reason" name="reason" rows="3"></textarea>
+                        <div class="invalid-feedback"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save Stock</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

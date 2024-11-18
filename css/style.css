@@ -445,11 +445,6 @@ div.dt-container div.dt-paging ul.pagination {
   color: var(--brand-color);
 }
 
-#stockin, #stockout {
-  margin-left: 10px;
-  margin-right: 5px;
-}
-
 @media screen and (min-width: 768px) {
   .sidebar {
     display: flex;

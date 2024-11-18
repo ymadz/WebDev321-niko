@@ -126,16 +126,16 @@ $(document).ready(function () {
           addProduct(); // Call function to add product
         });
 
-        // Event listener for adding a product
+        // Event listener for editing a product
         $(".edit-product").on("click", function (e) {
           e.preventDefault(); // Prevent default behavior
           editProduct(this.dataset.id); // Call function to add product
         });
 
-        // Event listener for adding a product
-        $(".stock-product").on("click", function (e) {
+        // Event listener for adding stocks
+        $(".add-stock").on("click", function (e) {
           e.preventDefault(); // Prevent default behavior
-          editProductStock(this.dataset.id); // Call function to add product
+          addStock(this.dataset.id); // Call function to add product
         });
       },
     });
@@ -164,194 +164,126 @@ $(document).ready(function () {
     });
   }
 
-  function editProductStock(productId) {
-    $.ajax({
-		type: "GET", // Use GET request
-		url: "../stocks/stocks.html", // URL to get product data
-		dataType: "html", // Expect JSON response
-		success: function (view) {
-			fetchCategories(); // Load categories for the select input
-			fetchRecord(productId, 'stock');
-			// Assuming 'view' contains the new content you want to display
-			$(".modal-container").empty().html(view); // Load the modal view
-			$("#staticBackdropstock").modal("show"); // Show the modal
-			$("#staticBackdropstock").attr("data-id", productId);
-
-			// Event listener for the add product form submission
-			$("#form-stock-product ").on("submit", function (e) {
-				e.preventDefault(); // Prevent default form submission
-				updateProductStock(productId); // Call function to save product
-			});
-		},
-    });
-  }
-
-  // Function to save a new product
-  function updateProductStock(productId) {
-    $.ajax({
-		type: "POST", // Use POST request
-		url: `../stocks/stocks.php?id=${productId}`, // URL for saving product
-		data: $("form").serialize(), // Serialize the form data for submission
-		dataType: "json", // Expect JSON response
-		success: function (response) {
-			if (response.status === "error") {
-			// Handle validation errors
-			if (response.quantityErr) {
-				$("#quantity").addClass("is-invalid"); // Mark field as invalid
-				$("#quantity").next(".invalid-feedback").text(response.quantityErr).show(); // Show error message
-			} else {
-				$("#quantity").removeClass("is-invalid"); // Remove invalid class if no error
-			}
-			if (response.statusErr) {
-				$("#status").addClass("is-invalid");
-				$("#status").next(".invalid-feedback").text(response.statusErr).show();
-			} else {
-				$("#status").removeClass("is-invalid");
-			}
-			if (response.reasonErr) {
-				$("#reason").addClass("is-invalid");
-				$("#reason")
-				.next(".invalid-feedback")
-				.text(response.reasonErr)
-				.show();
-			} else {
-				$("#reason").removeClass("is-invalid");
-			}
-			} else if (response.status === "success") {
-			// On success, hide modal and reset form
-			$("#staticBackdropstock").modal("hide");
-			$("form")[0].reset(); // Reset the form
-			// Optionally, reload products to show new entry
-			console.log(response)
-			viewProducts();
-			}
-		},
-    });
-  }
-
-
-
   // Function to show the add product modal
   function addProduct() {
     $.ajax({
-		type: "GET", // Use GET request
-		url: "../products/add-product.html", // URL for add product view
-		dataType: "html", // Expect HTML response
-		success: function (view) {
-			$(".modal-container").html(view); // Load the modal view
-			$("#staticBackdrop").modal("show"); // Show the modal
+      type: "GET", // Use GET request
+      url: "../products/add-product.html", // URL for add product view
+      dataType: "html", // Expect HTML response
+      success: function (view) {
+        $(".modal-container").html(view); // Load the modal view
+        $("#staticBackdrop").modal("show"); // Show the modal
 
-			fetchCategories(); // Load categories for the select input
+        fetchCategories(); // Load categories for the select input
 
-			// Event listener for the add product form submission
-			$("#form-add-product").on("submit", function (e) {
-			e.preventDefault(); // Prevent default form submission
-			saveProduct(); // Call function to save product
-			});
-		},
+        // Event listener for the add product form submission
+        $("#form-add-product").on("submit", function (e) {
+          e.preventDefault(); // Prevent default form submission
+          saveProduct(); // Call function to save product
+        });
+      },
     });
   }
 
   // Function to save a new product
   function saveProduct() {
     $.ajax({
-		type: "POST", // Use POST request
-		url: "../products/add-product.php", // URL for saving product
-		data: $("form").serialize(), // Serialize the form data for submission
-		dataType: "json", // Expect JSON response
-		success: function (response) {
-			if (response.status === "error") {
-			// Handle validation errors
-			if (response.codeErr) {
-				$("#code").addClass("is-invalid"); // Mark field as invalid
-				$("#code").next(".invalid-feedback").text(response.codeErr).show(); // Show error message
-			} else {
-				$("#code").removeClass("is-invalid"); // Remove invalid class if no error
-			}
-			if (response.nameErr) {
-				$("#name").addClass("is-invalid");
-				$("#name").next(".invalid-feedback").text(response.nameErr).show();
-			} else {
-				$("#name").removeClass("is-invalid");
-			}
-			if (response.categoryErr) {
-				$("#category").addClass("is-invalid");
-				$("#category")
-				.next(".invalid-feedback")
-				.text(response.categoryErr)
-				.show();
-			} else {
-				$("#category").removeClass("is-invalid");
-			}
-			if (response.priceErr) {
-				$("#price").addClass("is-invalid");
-				$("#price")
-				.next(".invalid-feedback")
-				.text(response.priceErr)
-				.show();
-			} else {
-				$("#price").removeClass("is-invalid");
-			}
-			} else if (response.status === "success") {
-			// On success, hide modal and reset form
-			$("#staticBackdrop").modal("hide");
-			$("form")[0].reset(); // Reset the form
-			// Optionally, reload products to show new entry
-			viewProducts();
-			}
-		},
+      type: "POST", // Use POST request
+      url: "../products/add-product.php", // URL for saving product
+      data: $("form").serialize(), // Serialize the form data for submission
+      dataType: "json", // Expect JSON response
+      success: function (response) {
+        if (response.status === "error") {
+          // Handle validation errors
+          if (response.codeErr) {
+            $("#code").addClass("is-invalid"); // Mark field as invalid
+            $("#code").next(".invalid-feedback").text(response.codeErr).show(); // Show error message
+          } else {
+            $("#code").removeClass("is-invalid"); // Remove invalid class if no error
+          }
+          if (response.nameErr) {
+            $("#name").addClass("is-invalid");
+            $("#name").next(".invalid-feedback").text(response.nameErr).show();
+          } else {
+            $("#name").removeClass("is-invalid");
+          }
+          if (response.categoryErr) {
+            $("#category").addClass("is-invalid");
+            $("#category")
+              .next(".invalid-feedback")
+              .text(response.categoryErr)
+              .show();
+          } else {
+            $("#category").removeClass("is-invalid");
+          }
+          if (response.priceErr) {
+            $("#price").addClass("is-invalid");
+            $("#price")
+              .next(".invalid-feedback")
+              .text(response.priceErr)
+              .show();
+          } else {
+            $("#price").removeClass("is-invalid");
+          }
+        } else if (response.status === "success") {
+          // On success, hide modal and reset form
+          $("#staticBackdrop").modal("hide");
+          $("form")[0].reset(); // Reset the form
+          // Optionally, reload products to show new entry
+          viewProducts();
+        }
+      },
     });
   }
 
   // Function to save a new product
   function updateProduct(productId) {
     $.ajax({
-		type: "POST", // Use POST request
-		url: `../products/update-product.php?id=${productId}`, // URL for saving product
-		data: $("form").serialize(), // Serialize the form data for submission
-		dataType: "json", // Expect JSON response
-		success: function (response) {
-			if (response.status === "error") {
-			// Handle validation errors
-			if (response.codeErr) {
-				$("#code").addClass("is-invalid"); // Mark field as invalid
-				$("#code").next(".invalid-feedback").text(response.codeErr).show(); // Show error message
-			} else {
-				$("#code").removeClass("is-invalid"); // Remove invalid class if no error
-			}
-			if (response.nameErr) {
-				$("#name").addClass("is-invalid");
-				$("#name").next(".invalid-feedback").text(response.nameErr).show();
-			} else {
-				$("#name").removeClass("is-invalid");
-			}
-			if (response.categoryErr) {
-				$("#category").addClass("is-invalid");
-				$("#category")
-				.next(".invalid-feedback")
-				.text(response.categoryErr)
-				.show();
-			} else {
-				$("#category").removeClass("is-invalid");
-			}
-			if (response.priceErr) {
-				$("#price").addClass("is-invalid");
-				$("#price")
-				.next(".invalid-feedback")
-				.text(response.priceErr)
-				.show();
-			} else {
-				$("#price").removeClass("is-invalid");
-			}
-			} else if (response.status === "success") {
-			// On success, hide modal and reset form
-			$("#staticBackdropedit").modal("hide");
-			$("form")[0].reset(); // Reset the form
-			// Optionally, reload products to show new entry
-			console.log(response)
-			viewProducts();
-			}
-		},
+      type: "POST", // Use POST request
+      url: `../products/update-product.php?id=${productId}`, // URL for saving product
+      data: $("form").serialize(), // Serialize the form data for submission
+      dataType: "json", // Expect JSON response
+      success: function (response) {
+        if (response.status === "error") {
+          // Handle validation errors
+          if (response.codeErr) {
+            $("#code").addClass("is-invalid"); // Mark field as invalid
+            $("#code").next(".invalid-feedback").text(response.codeErr).show(); // Show error message
+          } else {
+            $("#code").removeClass("is-invalid"); // Remove invalid class if no error
+          }
+          if (response.nameErr) {
+            $("#name").addClass("is-invalid");
+            $("#name").next(".invalid-feedback").text(response.nameErr).show();
+          } else {
+            $("#name").removeClass("is-invalid");
+          }
+          if (response.categoryErr) {
+            $("#category").addClass("is-invalid");
+            $("#category")
+              .next(".invalid-feedback")
+              .text(response.categoryErr)
+              .show();
+          } else {
+            $("#category").removeClass("is-invalid");
+          }
+          if (response.priceErr) {
+            $("#price").addClass("is-invalid");
+            $("#price")
+              .next(".invalid-feedback")
+              .text(response.priceErr)
+              .show();
+          } else {
+            $("#price").removeClass("is-invalid");
+          }
+        } else if (response.status === "success") {
+          // On success, hide modal and reset form
+          $("#staticBackdropedit").modal("hide");
+          $("form")[0].reset(); // Reset the form
+          // Optionally, reload products to show new entry
+          viewProducts();
+        }
+      },
     });
   }
 
@@ -378,21 +310,75 @@ $(document).ready(function () {
     });
   }
 
-  function fetchRecord(productId, action="edit") {
+  function fetchRecord(productId) {
     $.ajax({
       url: `../products/fetch-product.php?id=${productId}`, // URL for fetching categories
       type: "POST", // Use GET request
       dataType: "json", // Expect JSON response
       success: function (product) {
-        if(action === "edit"){
-			$("#code").val(product.code);
-			$("#name").val(product.name);
-			$("#category").val(product.category_id).trigger("change"); // Set the selected category
-			$("#price").val(product.price);
-		} else if (action === "stock") {
-			$("#name").html('&nbsp;' + product.name);
-		}
+        $("#code").val(product.code);
+        $("#name").val(product.name);
+        $("#category").val(product.category_id).trigger("change"); // Set the selected category
+        $("#price").val(product.price);
       },
     });
   }
 });
+
+// Function to show the stock in/out modal
+function addStock(productId) {
+  $.ajax({
+      type: "GET",
+      url: "../stocks/stock-in-out.html",
+      dataType: "html",
+      success: function (view) {
+          $(".modal-container").html(view); // Load the modal view
+          $("#stockModal").modal("show"); // Show the modal
+
+          // Handle the visibility of the reason field
+          $("input[name='status']").on("change", function () {
+              if (this.value === "out") {
+                  $("#reasonField").removeClass("d-none");
+              } else {
+                  $("#reasonField").addClass("d-none");
+              }
+          });
+
+          // Event listener for the stock form submission
+          $("#form-stock").on("submit", function (e) {
+              e.preventDefault();
+              saveStock(productId); // Call function to save stock in/out
+          });
+      },
+  });
+}
+
+// Function to save stock in/out data
+function saveStock(productId) {
+  $.ajax({
+      type: "POST",
+      url: `../stocks/stocks.php?id=${productId}`,
+      data: $("#form-stock").serialize(),
+      dataType: "json",
+      success: function (response) {
+          if (response.status === "error") {
+              // Display validation errors
+              if (response.quantityErr) {
+                  $("#quantity").addClass("is-invalid");
+                  $("#quantity").next(".invalid-feedback").text(response.quantityErr).show();
+              }
+              if (response.statusErr) {
+                  $("input[name='status']").addClass("is-invalid");
+                  $("input[name='status']").next(".invalid-feedback").text(response.statusErr).show();
+              }
+              if (response.reasonErr) {
+                  $("#reason").addClass("is-invalid");
+                  $("#reason").next(".invalid-feedback").text(response.reasonErr).show();
+              }
+          } else if (response.status === "success") {
+              $("#stockModal").modal("hide"); // Hide the modal on success
+              viewProducts(); // Refresh the products view to reflect the new stock
+          }
+      },
+  });
+}

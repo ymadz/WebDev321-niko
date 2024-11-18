@@ -167,7 +167,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         <!-- Submit button -->
         <br>
         <input type="submit" value="Update Product">
-    </form><h3>Stock In/Out for Product <?= $name ?></h3>
+    </form>
 </body>
 
 </html>

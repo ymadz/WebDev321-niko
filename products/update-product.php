@@ -10,7 +10,7 @@ $codeErr = $nameErr = $categoryErr = $priceErr = '';
 $productObj = new Product();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // echo "<script>hacked</script>";
+
     $code = clean_input($_POST['code']);
     $name = clean_input($_POST['name']);
     $category = clean_input($_POST['category']);
